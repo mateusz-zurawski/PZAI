@@ -1,0 +1,37 @@
+{% extends 'kanban/kanban_base.html' %}
+{% load widget_tweaks %}
+{% block title %}
+    Add Task
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Add Task</h2>
+                    <div class="login-wrap p-4 p-md-5">
+                        <div class="row justify-content-center py-md-5">
+                            <form method="post" novalidate>
+                                {% csrf_token %}
+                                {% for field in form.visible_fields %}
+                                    {% if field.label == 'Priority' or field.label == 'Title' or field.label == 'Description' or field.label == 'Status' or field.label == 'Author' or field.label == 'Group' %}
+                                        {{ field.label_tag }}
+                                        {% render_field field class="form-control" %}
+                                    {% else %}
+                                        {{ field.as_hidden }}
+                                    {% endif %}
+                                {% endfor %}
+                                <br/>
+                                <button type="submit" class="btn btn-primary" value="Save">Submit</button>
+                                <button type="button" class="btn btn-secondary">
+                                    <a href="{% url 'index' %}" style="color:#ffffff; text-decoration:none">Back To Board</a>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

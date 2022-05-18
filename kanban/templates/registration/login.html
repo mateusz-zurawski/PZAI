@@ -1,0 +1,55 @@
+{% extends 'kanban/kanban_base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}
+    Kanban Login
+{% endblock %}
+
+{% block content %}
+{% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        Your username and password didn't match. Please try again.
+    </div>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,please login with an account that has access.</p>
+    {% else %}
+        <div class="img js-fullheight" style="background-image: url({% static 'images/bg.jpg' %}); ">
+            <section class="ftco-section">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 text-center mb-5">
+                            <h2 class="heading-section">Login</h2>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="login-wrap p-0">
+                                <h3 class="mb-4 text-center">Have an account?</h3>
+                                <form action="{% url 'accounts-login' %}" method="post" class="signup-form">
+                                    {% csrf_token %}
+                                    {% for field in form.visible_fields %}
+                                        {{ field.label_tag }}
+                                        {% render_field field class="form-control" %}
+                                    {% endfor %}
+                                    <br/>
+                                    <button type="submit" class="form-control btn btn-primary submit px-3" value="login">Sign In</button>
+                                    <input type="hidden" name="next" value="{{ next }}"/>
+                                </div>
+                            </form>
+
+                            <div class="w-100">
+                                <p class="mt-4 text-center">&mdash;<a type="primary" href="{% url 'accounts-sign_up' %}" style="color:#000000; text-decoration:none">Sign Up</a>
+                                    &mdash;</p>
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endif %}{% endif %}{% endblock %}
